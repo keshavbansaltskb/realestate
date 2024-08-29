@@ -1,0 +1,27 @@
+/* styles.css */
+.load-more-button {
+    background: linear-gradient(135deg, #007bff, #0056b3); /* Gradient background */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    color: #fff; /* White text color */
+    font-size: 16px; /* Font size */
+    padding: 10px 20px; /* Padding for size */
+    margin: 20px 0; /* Margin for spacing */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-align: center; /* Center text */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.load-more-button:hover {
+    background: linear-gradient(135deg, #0056b3, #007bff); /* Reverse gradient on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+.load-more-button:focus {
+    outline: none; /* Remove outline on focus */
+}
+
+.load-more-button:active {
+    background: #004085; /* Darker color on click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly different shadow */
+}

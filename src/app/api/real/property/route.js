@@ -1,20 +1,23 @@
 import { NextResponse } from "next/server";
-import mongoose from "mongoose";
-import {MongoClient, ObjectId} from "mongodb";
+import { MongoClient } from "mongodb";
 
-export async function GET(request){
-    let MongoClient = require("mongodb").MongoClient;
-    let Client =await MongoClient.connect("mongodb://localhost:27017/realestate");
-    const db= Client.db();
+export async function GET(request) {
+    let client = await MongoClient.connect("mongodb://localhost:27017/realestate");
+    const db = client.db();
     const collection = db.collection("property");
-    var stud = await  collection.find().toArray();
-    const shuffleArray = (array) => {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
+
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get("page")) || 1;
+    const limit = 4;
+    const skip = (page - 1) * limit;
+
+    const properties = await collection.find().skip(skip).limit(limit).toArray();
+    const totalProperties = await collection.countDocuments();
+
+    const response = {
+        result: properties,
+        hasMore: skip + properties.length < totalProperties,
     };
-    const shuffledArray = shuffleArray(stud);
-    return NextResponse.json({ result: shuffledArray });
+
+    return NextResponse.json(response);
 }

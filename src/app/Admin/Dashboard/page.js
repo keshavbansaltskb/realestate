@@ -1,21 +1,30 @@
-"use client"
-import { useEffect } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import AdminNav from "../Component/AdminNav";
 import { hasCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import Dashboard from "../Component/Dashboard";
 
 export default function Home() {
-    const Router = useRouter();
-    useEffect(()=>{
-        if(hasCookie("admin") == false){
-            Router.push("/Admin/Index");
+    const router = useRouter();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        if (hasCookie("admin")) {
+            setIsAuthenticated(true);
+        } else {
+            router.push("/Admin/Index"); 
         }
-    },[])
-    return(
+    }, []);
+
+    if (!isAuthenticated) {
+        return null;
+    }
+
+    return (
         <>
             <AdminNav />
             <Dashboard />
         </>
-    )
+    );
 }
